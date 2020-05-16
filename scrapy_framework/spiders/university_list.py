@@ -19,15 +19,15 @@ class UniversityListSpider(scrapy.Spider):
         for row_object in row_objects[1:]:
             college_location = row_object.xpath('td[2]/a/text()').extract_first(default='') + \
                                row_object.xpath('td[2]/text()').extract_first(default='')
-            if 'london' in college_location.lower():
-                collegelist_item['college_location'] = re.sub('[\n,]', '',college_location)
-                collegelist_item['college_name'] = re.sub('[\n,]', '', row_object.xpath("td["
-                                                                                        "1]/a/text()").extract_first())
-                collegelist_item['college_url'] = re.sub('[\n,]', '',  row_object.xpath("td["
-                                                                                        "1]/a/@href").extract_first())
-                yield response.follow(collegelist_item['college_url'],
-                                      callback=self.parge_college_details)
-                yield collegelist_item
+            # if 'london' in college_location.lower():
+            collegelist_item['college_location'] = re.sub('[\n,]', '',college_location)
+            collegelist_item['college_name'] = re.sub('[\n,]', '', row_object.xpath("td["
+                                                                                    "1]/a/text()").extract_first())
+            collegelist_item['college_url'] = re.sub('[\n,]', '',  row_object.xpath("td["
+                                                                                    "1]/a/@href").extract_first())
+            yield response.follow(collegelist_item['college_url'],
+                                  callback=self.parge_college_details)
+            yield collegelist_item
 
 
     def parge_college_details(self, response):
